@@ -33,12 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
     chamAnchor.group.add(chamPlane);
     chamAnchor.onTargetFound = () => {
       chamVideo.play();
+      document.querySelector('.mode').textContent='Chameleon 🦎'
       console.log('played')
     }
    
     chamAnchor.onTargetLost = () => {
       chamVideo.pause();
       console.log('paused')
+      document.querySelector('.mode').textContent='Scanning...'
       console.log(mindarThree.ui.scanningMask.classList.remove('hidden'))
     }
     chamVideo.addEventListener('play', () => {
