@@ -1,5 +1,7 @@
 import { loadGLTF, loadVideo } from "./loader.js";
 const THREE = window.MINDAR.IMAGE.THREE;
+import { CSS3DObject } from '../three.js-r132/examples/jsm/renderers/CSS3DRenderer.js';
+import { createChromaMaterial } from "./libs/chroma-video.js";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -11,41 +13,46 @@ document.addEventListener('DOMContentLoaded', () => {
       imageTargetSrc: './second.mind',
     });
 
-    const {renderer, scene, camera } = mindarThree;
+    const { renderer, scene, camera } = mindarThree;
 
-    const chamVideo = await loadVideo("./cham.mp4");
+    const chamVideo = await loadVideo("./3d.mp4");
     const guitarVideo = await loadVideo("./guitar.mp4");
 
-   
-    
+
+
     console.log(mindarThree)
 
-    const geometry = new THREE.PlaneGeometry(1, 0.4);
+    const obj = new CSS3DObject(document.querySelector("#ar-div"));
+    const cssAnchor = mindarThree.addCSSAnchor(0);
+    cssAnchor.group.add(obj);
+
+    const geometry = new THREE.PlaneGeometry(1, 1);
 
     /* Chameleon */
     const chamtexture = new THREE.VideoTexture(chamVideo);
-    const chamMaterial = new THREE.MeshBasicMaterial({ map: chamtexture });
+    /* const chamMaterial = new THREE.MeshBasicMaterial({ map: chamtexture }); */
+    const chamMaterial = createChromaMaterial(chamtexture, 0xffff00);
     const chamPlane = new THREE.Mesh(geometry, chamMaterial);
-    
-    chamPlane.position.set(0,0,0)
+
+    chamPlane.position.set(0, 0, 0)
 
     const chamAnchor = mindarThree.addAnchor(0);
     chamAnchor.group.add(chamPlane);
     chamAnchor.onTargetFound = () => {
       chamVideo.play();
-      document.querySelector('.mode').textContent='Chameleon 🦎'
+      document.querySelector('.mode').textContent = 'Chameleon 🦎'
       console.log('played')
     }
-   
+
     chamAnchor.onTargetLost = () => {
       chamVideo.pause();
       console.log('paused')
-      document.querySelector('.mode').textContent='Scanning...'
+      document.querySelector('.mode').textContent = 'Scanning...'
       console.log(mindarThree.ui.scanningMask.classList.remove('hidden'))
     }
     chamVideo.addEventListener('play', () => {
       chamVideo.loop = true
-      chamVideo.currentTime=0;
+      chamVideo.currentTime = 0;
     });
     /* Chameleon end */
 
@@ -67,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     guitarVideo.addEventListener('play', () => {
       guitarVideo.loop = true
-      guitarVideo.currentTime=0;
+      guitarVideo.currentTime = 0;
     });
 
 
