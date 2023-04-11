@@ -2,6 +2,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="index.css">
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.1/dist/mindar-image-aframe.prod.js"></script>
@@ -15,23 +16,41 @@
 </head>
 
 <body>
-    <a-scene mindar-image="imageTargetSrc: ./second.mind;filterMinCF: 0.0001; filterBeta: 0.001" color-space="sRGB"
+    <div class="nav">
+        <!--  <h1 class="title">MDes22</h1>
+        <p class='mode'>Scanning...</p> -->
+        <div>
+            <img src="./ayaam.png" alt="" width="130px">
+        </div>
+
+        <div>
+            <img src="./dod.png" alt="" width="130px">
+        </div>
+    </div>
+    <a-scene mindar-image="imageTargetSrc: ./ayaam.mind;filterMinCF: 0.0001; filterBeta: 0.001" color-space="sRGB"
         renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false">
         <a-assets>
             <video id="one" src="cham.mp4" muted autoplay loop="true"></video>
+            <a-asset-item id="cube" src="untitled.glb"></a-asset-item>
         </a-assets>
 
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-        <a-entity mindar-image-target="targetIndex: 0"
-            material="shader: chromakey; src: #one; color: 1 1 0" geometry="primitive: plane;
+        <a-entity mindar-image-target="targetIndex: 1" material="shader: chromakey; src: #one; color: 1 1 0" geometry="primitive: plane;
                 width: 1;
                 height: 0.6">
+        </a-entity>
 
+        <a-entity mindar-image-target="targetIndex: 0">
+          
+            <a-gltf-model rotation="0 0 0 " position="0 0 0" scale="0.6 0.6 0.6" src="#cube"
+                animation="property: position; to: 0 0 0.7
+                ;dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+                animation__2="property: rotation; to: 0 360 0;dur: 2000; easing: easeInOutQuad; loop: true;">
         </a-entity>
 
     </a-scene>
 </body>
 
-</html>
+</html
